@@ -1,0 +1,42 @@
+{
+  "name": "injectarkjs",
+  "version": "0.1.0",
+  "description": "Dependency Injector for Javascript",
+  "main": "index.js",
+  "scripts": {
+    "test": "babel-node jasmine tests/run.js",
+    "coverage": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text jasmine tests/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/knowark/injectarkjs.git"
+  },
+  "keywords": [
+    "injection",
+    "dependency"
+  ],
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  },
+  "author": "Nubark",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/knowark/injectarkjs/issues"
+  },
+  "homepage": "https://github.com/knowark/injectarkjs#readme",
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/node": "^7.2.2",
+    "@babel/preset-env": "^7.3.1",
+    "babel-plugin-istanbul": "^5.1.0",
+    "babel-preset-es2015": "^6.24.1",
+    "cross-env": "^5.2.0",
+    "jasmine": "^3.3.1",
+    "nyc": "^13.2.0"
+  },
+  "dependencies": {
+    "babel-core": "^6.26.3"
+  }
+}
