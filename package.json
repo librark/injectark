@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "clear": "rm -rf node_modules/",
-    "test": "babel-node tests/run.js",
-    "coverage": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text jasmine tests/*.js"
+    "test": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text babel-node tests/run.js"
   },
   "repository": {
     "type": "git",
@@ -19,6 +18,13 @@
   "babel": {
     "presets": [
       "@babel/preset-env"
+    ]
+  },
+  "nyc": {
+    "exclude": [
+      "**/*.spec.js",
+      "**/run.js",
+      "build"
     ]
   },
   "author": "Nubark",
