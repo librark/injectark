@@ -1,5 +1,5 @@
-import Jasmine from '../node_modules/jasmine/lib/jasmine'
+import Jasmine from 'jasmine'
 
-const jasmine = new Jasmine()
-jasmine.loadConfigFile('xjasmine.json')
+const jasmine = new Jasmine({})
+jasmine.loadConfigFile('jasmine.json')
 jasmine.execute()

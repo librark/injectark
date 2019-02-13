@@ -1,4 +1,4 @@
-import { Injectark } from '../src/injectark.js'
+import { Injectark } from '../lib/injectark.js'
 
 class A { }
 
@@ -231,21 +231,18 @@ describe('Injectark forge', function () {
 
     it('resolves a resource its parent know how to build', function () {
       const instance = injector.resolve('Y')
-      expect(instance).toEqual(jasmine.any(Y))
-      expect(injector.registry['Y']).toEqual(jasmine.any(Y))
-      expect(Object.keys(injector.registry).length).toEqual(1)
+      expect(instance).toEqual(injector.parent.registry['Y'])
+      expect( Object.keys(injector.parent.registry).length).toEqual(2)
+      expect( Object.keys(injector.registry).length).toEqual(0)
     })
 
     it('returns a unique resources if "unique" is true', function () {
-      injector.strategy['X'] = {
-        'method': 'coreX',
+      injector.strategy['Y'] = {
+        'method': 'coreY',
         'unique': true
       }
-      const parentRegistry = injector.parent.registry
-      const instance = injector.resolve('X')
-      expect(instance).not.toBe(parentRegistry['X'])
-      expect(Object.keys(injector.registry).length).toEqual(1)
-      expect(Object.keys(injector.parent.registry).length).toEqual(1)
+      const instance = injector._registryFetch('Y')
+      expect(instance).toBe(false)
     })
   })
 })
