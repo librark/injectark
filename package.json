@@ -2,7 +2,7 @@
   "name": "@knowark/injectarkjs",
   "version": "0.2.0",
   "description": "Dependency Injector for Javascript",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "clear": "rm -rf node_modules/",
     "test": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text babel-node tests/run.js"
