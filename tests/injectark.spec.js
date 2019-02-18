@@ -232,8 +232,8 @@ describe('Injectark forge', function () {
     it('resolves a resource its parent know how to build', function () {
       const instance = injector.resolve('Y')
       expect(instance).toEqual(injector.parent.registry['Y'])
-      expect( Object.keys(injector.parent.registry).length).toEqual(2)
-      expect( Object.keys(injector.registry).length).toEqual(0)
+      expect(Object.keys(injector.parent.registry).length).toEqual(2)
+      expect(Object.keys(injector.registry).length).toEqual(0)
     })
 
     it('returns a unique resources if "unique" is true', function () {
