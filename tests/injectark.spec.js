@@ -64,31 +64,32 @@ const standardStrategy = {
 }
 
 describe('Injectark default', function () {
+  let injector = null
   beforeEach(function () {
-    this.injector = new Injectark()
+    injector = new Injectark()
   })
 
   it('can be instantiated', function () {
-    expect(this.injector).toBeTruthy()
+    expect(injector).toBeTruthy()
   })
 
   it('has a null parent', function () {
-    expect(this.injector.parent).toBeNull()
+    expect(injector.parent).toBeNull()
   })
 
   it('has an empty registry', function () {
-    expect(this.injector.registry).toEqual({})
+    expect(injector.registry).toEqual({})
   })
 
   it('has an empty strategy object', function () {
-    expect(this.injector.strategy).toEqual({})
+    expect(injector.strategy).toEqual({})
   })
 })
 
 describe('Injectark params', function () {
-  var parent = new Injectark()
-  var factory = new StandardFactory()
-  var strategy = standardStrategy
+  let parent = new Injectark()
+  let factory = new StandardFactory()
+  let strategy = standardStrategy
   let injector = null
 
   beforeEach(function () {
