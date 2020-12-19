@@ -22,8 +22,8 @@ class D {
 
 class StandardFactory {
   constructor () {
-    this._standardC['dependencies'] = ['A', 'B']
-    this._standardD['dependencies'] = ['B', 'C']
+    this._standardC.dependencies = ['A', 'B']
+    this._standardD.dependencies = ['B', 'C']
   }
 
   extract (method) {
@@ -48,18 +48,50 @@ class StandardFactory {
   }
 }
 
+class DefaultFactory {
+  constructor () {
+    this.c.dependencies = ['A', 'B']
+    this.d.dependencies = ['B', 'C']
+  }
+
+  extract (method) {
+    return this[`${method}`]
+  }
+
+  a () {
+    return new A()
+  }
+
+  b () {
+    return new B()
+  }
+
+  c (a, b) {
+    if (!(a && b)) throw new Error('Supply dependencies.')
+    return new C(a, b)
+  }
+
+  d (b, c) {
+    return new D(b, c)
+  }
+
+  dataService () {
+    throw new Error('Not implemented service.')
+  }
+}
+
 const standardStrategy = {
-  'A': {
-    'method': 'standardA'
+  A: {
+    method: 'standardA'
   },
-  'B': {
-    'method': 'standardB'
+  B: {
+    method: 'standardB'
   },
-  'C': {
-    'method': 'standardC'
+  C: {
+    method: 'standardC'
   },
-  'D': {
-    'method': 'standardD'
+  D: {
+    method: 'standardD'
   }
 }
 
@@ -87,9 +119,9 @@ describe('Injectark default', function () {
 })
 
 describe('Injectark params', function () {
-  let parent = new Injectark()
-  let factory = new StandardFactory()
-  let strategy = standardStrategy
+  const parent = new Injectark()
+  const factory = new StandardFactory()
+  const strategy = standardStrategy
   let injector = null
 
   beforeEach(function () {
@@ -118,9 +150,9 @@ describe('Injectark params', function () {
 
     it('serves an already instantiated resource from its registry',
       function () {
-        let instance = injector.resolve('A')
+        const instance = injector.resolve('A')
         expect(instance).toEqual(jasmine.any(A))
-        let registryInstance = injector.resolve('A')
+        const registryInstance = injector.resolve('A')
         expect(registryInstance).toBe(instance)
 
         expect(Object.keys(injector.registry).length).toEqual(1)
@@ -128,7 +160,7 @@ describe('Injectark params', function () {
 
     it("generates and injects a resource's dependencies on resolve",
       function () {
-        let instance = injector.resolve('C')
+        const instance = injector.resolve('C')
         expect(instance).toEqual(jasmine.any(C))
         expect(instance.a).toEqual(jasmine.any(A))
         expect(instance.b).toEqual(jasmine.any(B))
@@ -140,12 +172,12 @@ describe('Injectark params', function () {
     it("doesn't persist ephemeral dependencies on the registry",
       function () {
         injector.strategy = {
-          'A': {
-            'method': 'standardA',
-            'ephemeral': true
+          A: {
+            method: 'standardA',
+            ephemeral: true
           }
         }
-        let instance = injector.resolve('A')
+        const instance = injector.resolve('A')
 
         expect(instance).toEqual(jasmine.any(A))
         expect(Object.keys(injector.registry).length).toEqual(0)
@@ -166,7 +198,7 @@ describe('Injectark forge', function () {
 
   class CoreFactory {
     constructor () {
-      this._coreY['dependencies'] = ['X']
+      this._coreY.dependencies = ['X']
     }
 
     extract (method) {
@@ -183,19 +215,19 @@ describe('Injectark forge', function () {
   }
 
   const coreStrategy = {
-    'X': {
-      'method': 'coreX',
-      'second': 'yes'
+    X: {
+      method: 'coreX',
+      second: 'yes'
     },
-    'Y': {
-      'method': 'coreY'
+    Y: {
+      method: 'coreY'
     }
   }
 
-  var parent = null
-  var injector = null
-  var factory = null
-  var strategy = null
+  let parent = null
+  let injector = null
+  let factory = null
+  let strategy = null
 
   describe('Injectark hierarchical resolve', function () {
     beforeEach(function () {
@@ -207,7 +239,7 @@ describe('Injectark forge', function () {
         factory: new CoreFactory()
       })
 
-      parent.registry['X'] = new X()
+      parent.registry.X = new X()
 
       injector = parent.forge({
         strategy: strategy,
@@ -224,7 +256,7 @@ describe('Injectark forge', function () {
     it('resolves a resource own by its parent registry', function () {
       const instance = injector.resolve('X')
       expect(instance).toEqual(jasmine.any(X))
-      expect(instance).toBe(parent.registry['X'])
+      expect(instance).toBe(parent.registry.X)
 
       expect(Object.keys(parent.registry).length).toEqual(1)
       expect(Object.keys(injector.registry).length).toEqual(0)
@@ -232,18 +264,69 @@ describe('Injectark forge', function () {
 
     it('resolves a resource its parent know how to build', function () {
       const instance = injector.resolve('Y')
-      expect(instance).toEqual(injector.parent.registry['Y'])
+      expect(instance).toEqual(injector.parent.registry.Y)
       expect(Object.keys(injector.parent.registry).length).toEqual(2)
       expect(Object.keys(injector.registry).length).toEqual(0)
     })
 
-    it('returns a unique resources if "unique" is true', function () {
-      injector.strategy['Y'] = {
-        'method': 'coreY',
-        'unique': true
+    it('returns a unique resource if "unique" is true', function () {
+      injector.strategy.Y = {
+        method: 'coreY',
+        unique: true
       }
       const instance = injector._registryFetch('Y')
       expect(instance).toBe(false)
+    })
+
+    it('might forge a subinjector without arguments', function () {
+      const subInjector = injector.forge()
+      expect(subInjector.parent).toBe(injector)
+      expect(subInjector.strategy).toBe(null)
+      expect(subInjector.factory).toBe(null)
+    })
+
+    it('resolves from its own registry if there is no parent', function () {
+      injector.parent = null
+      const instance = injector.resolve('Y')
+      expect(instance).toEqual(null)
+    })
+  })
+})
+
+describe('Injectark optional strategy', function () {
+  const parent = new Injectark()
+  const factory = new DefaultFactory()
+  let injector = null
+
+  beforeEach(function () {
+    injector = new Injectark({
+      factory: factory,
+      parent: parent
+    })
+  })
+
+  it('has a strategy that defaults to an empty object', function () {
+    expect(injector.parent).toBe(parent)
+    expect(injector.factory).toBe(factory)
+    expect(injector.strategy).toEqual({})
+  })
+
+  describe('Injectark default factory resolvers', function () {
+    it('resolves a resource by its camelCase name by default', function () {
+      let instance = injector.resolve('A')
+      expect(instance).toEqual(jasmine.any(A))
+      instance = injector.resolve('B')
+      expect(instance).toEqual(jasmine.any(B))
+
+      expect(Object.keys(injector.registry).length).toEqual(2)
+    })
+
+    it('resolves TitleCase to camelCase by default', function () {
+      try {
+        injector.resolve('DataService')
+      } catch (e) {
+        expect(e.message).toEqual('Not implemented service.')
+      }
     })
   })
 })
