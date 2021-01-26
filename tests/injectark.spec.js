@@ -281,7 +281,7 @@ describe('Injectark forge', function () {
     it('might forge a subinjector without arguments', function () {
       const subInjector = injector.forge()
       expect(subInjector.parent).toBe(injector)
-      expect(subInjector.strategy).toBe(null)
+      expect(subInjector.strategy).toEqual({})
       expect(subInjector.factory).toBe(null)
     })
 
