@@ -54,10 +54,6 @@ class DefaultFactory {
     this.d.dependencies = ['B', 'C']
   }
 
-  extract (method) {
-    return this[`${method}`]
-  }
-
   a () {
     return new A()
   }
