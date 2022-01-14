@@ -9,14 +9,6 @@ describe('Factory interface', function () {
     }
   })
 
-  // it('has an abstract extract method', function () {
-  // try {
-  // factory.extract('factoryMethod')
-  // } catch (error) {
-  // expect(error).toBeTruthy()
-  // }
-  // })
-
   it('has a default extract method', function () {
     const method = factory.extract('factoryMethod')
     expect(method()).toEqual('ResolvedResource')
