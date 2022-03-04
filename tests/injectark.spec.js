@@ -51,7 +51,6 @@ class StandardFactory {
 class DefaultFactory {
   constructor () {
     this.c.dependencies = ['A', 'B']
-    this.d.dependencies = ['B', 'C']
   }
 
   a () {
@@ -314,14 +313,20 @@ describe('Injectark optional strategy', function () {
       instance = injector.resolve('B')
       expect(instance).toEqual(jasmine.any(B))
 
-      expect(Object.keys(injector.registry).length).toEqual(2)
+      instance = injector.resolve('C')
+      expect(instance).toEqual(jasmine.any(C))
+
+      instance = injector.resolve('D')
+      expect(instance).toEqual(jasmine.any(D))
+
+      expect(Object.keys(injector.registry).length).toEqual(4)
     })
 
     it('resolves TitleCase to camelCase by default', function () {
       try {
         injector.resolve('DataService')
-      } catch (e) {
-        expect(e.message).toEqual('Not implemented service.')
+      } catch (error) {
+        expect(error.message).toEqual('Not implemented service.')
       }
     })
   })
