@@ -1,4 +1,5 @@
 import { Injectark } from '../lib/injectark.js'
+import { Factory } from '../lib/factory.js'
 
 class A { }
 
@@ -20,8 +21,9 @@ class D {
   }
 }
 
-class StandardFactory {
-  constructor () {
+class StandardFactory extends Factory {
+  constructor (config) {
+    super(config)
     this._standardC.dependencies = ['A', 'B']
     this._standardD.dependencies = ['B', 'C']
   }
@@ -48,8 +50,9 @@ class StandardFactory {
   }
 }
 
-class DefaultFactory {
-  constructor () {
+class DefaultFactory extends Factory {
+  constructor (config) {
+    super(config)
     this.c.dependencies = ['A', 'B']
   }
 
@@ -191,8 +194,9 @@ describe('Injectark forge', function () {
     }
   }
 
-  class CoreFactory {
-    constructor () {
+  class CoreFactory extends Factory {
+    constructor (config) {
+      super(config)
       this._coreY.dependencies = ['X']
     }
 
@@ -290,7 +294,8 @@ describe('Injectark forge', function () {
 
 describe('Injectark optional strategy', function () {
   const parent = new Injectark()
-  const factory = new DefaultFactory()
+  const config = { key: 'value' }
+  const factory = new DefaultFactory(config)
   let injector = null
 
   beforeEach(function () {
@@ -304,6 +309,10 @@ describe('Injectark optional strategy', function () {
     expect(injector.parent).toBe(parent)
     expect(injector.factory).toBe(factory)
     expect(injector.strategy).toEqual({})
+  })
+
+  it('provides its factory config through a config property', () => {
+    expect(injector.config).toBe(injector.factory.config)
   })
 
   describe('Injectark default factory resolvers', function () {
