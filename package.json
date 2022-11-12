@@ -1,6 +1,6 @@
 {
   "name": "@knowark/injectarkjs",
-  "version": "0.8.3",
+  "version": "0.8.4",
   "description": "Dependency Injector for Javascript",
   "main": "lib/index.js",
   "type": "module",
