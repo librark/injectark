@@ -21,7 +21,7 @@ export declare class Injectark {
 
   set(resource: string, instance: unknown): void
 
-  resolve(resource: string, strict: boolean): unknown
+  resolve(resource: string, strict?: boolean): unknown
 
   forge(dependencies: { strategy?: object, factory?: Factory }): Injectark
 }
