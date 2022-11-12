@@ -17,10 +17,13 @@ export declare class Injectark {
 
   config: object
 
+  get<Type>(resource: new () => Type): Type
   get(resource: string): unknown
 
+  set<Type>(resource: new () => Type, instance: Type): void
   set(resource: string, instance: unknown): void
 
+  resolve<Type>(resource: new () => Type, strict?: boolean): Type
   resolve(resource: string, strict?: boolean): unknown
 
   forge(dependencies: { strategy?: object, factory?: Factory }): Injectark
