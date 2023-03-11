@@ -17,6 +17,10 @@ push: ## Push git repository with its tags
 updates:
 	npx npm-check-updates
 
+upgrade:
+	npx npm-check-updates --upgrade
+	npm install
+
 gitmessage: ## Add .gitmessage file as git commit template
 	touch .gitmessage
 	echo "\n# commit message\n.gitmessage" >> .gitignore

@@ -36,7 +36,7 @@
   },
   "homepage": "https://github.com/knowark/injectarkjs#readme",
   "devDependencies": {
-    "jest": "^29.2.2"
+    "jest": "^29.5.0"
   },
   "dependencies": {}
 }

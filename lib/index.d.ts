@@ -8,6 +8,12 @@ export declare class Factory {
   extract(method: string): Function
 }
 
+export declare class Builder {
+  constructor(options: { factories: object, base?: string })
+
+  build(config?: object): Factory
+}
+
 export declare class Injectark {
   constructor(dependencies: {
     factory: Factory,
