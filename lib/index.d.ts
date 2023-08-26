@@ -5,7 +5,7 @@ export declare class Factory {
 
   allowed: string[]
 
-  extract(method: string): Function
+  lazy: string[]
 }
 
 export declare class Builder {
