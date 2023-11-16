@@ -21,7 +21,7 @@
 
 ## Why Injectark?
 
-Injectark is a light-weight a *dependency injection container*, which has zero
+Injectark is a light-weight *dependency injection container*, which has zero
 dependencies and follows an *isomorphic Javascript* design: it runs both on the
 browser and server-side. Opposite to other dependency injection libraries,
 Injectark can be used with *Vanilla Javascript*, not needing a transpiler like
